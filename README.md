@@ -2,6 +2,6 @@
 
 Before starting development, do
 
-```source /env/bin/activate```
+```source env/bin/activate```
 
 to get virtualenv working.
