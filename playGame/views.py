@@ -5,6 +5,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from playGame.models import Person
+
+names = [Person(name="Benny", id=1), Person(name="Tenny", id=2), Person(name="Renny", id=3), Person(name="Henny", id=4)]
 
 def index(request):
   if request.method == "GET":
@@ -13,13 +16,11 @@ def index(request):
     if 'playername' in request.POST and request.POST['playername']:
       return HttpResponseRedirect(reverse('playGame:join'))
     else:
+      # todo: add name into names
       return render(request, 'playGame/index.html', {'error_message': "You need to fill in a name"})
 
 def play(request):
-  # return HttpResponse("You're playingn the game")
   return render(request, 'playGame/game.html')
 
 def join(request):
-  # return HttpResponse("You're going to join a game")
-  return render(request, 'playGame/join.html')
-# Create your views here.
+  return render(request, 'playGame/join.html', {'names': names})

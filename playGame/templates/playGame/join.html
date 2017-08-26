@@ -1,10 +1,11 @@
 <form>
 <legend>Propose Game</legend>
-<p><input type = "radio" name = "playerName" value = 1>Erica</p>
-<p><input type = "radio" name = "playerName" value = 2>Charles</p>
-<p><input type = "radio" name = "playerName" value = 3>Radio</p>
-<p><input type = "radio" name = "playerName" value = 4>Mars</p>
-<p><input type = "radio" name = "playerName" value = 5>Harry</p>
-<p><input type = "radio" name = "playerName" value = 6>Harmy</p>
+
+{% csrf_token %}
+{% for name in names %}
+    <input type="radio" name="name" id="name{{ forloop.counter }}" value="{{ name.id }}" />
+    <label for="name{{ forloop.counter }}">{{ name.name }}</label><br />
+{% endfor %}
+
 <p><input type="submit" id="submitted"></p>
 </form>
