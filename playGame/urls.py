@@ -7,5 +7,5 @@ app_name = 'playGame'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'play', views.play, name="play"),
-    url(r'join', views.join, name="join"),
+    url(r'^(?P<player_id>[0-9]+)/join/', views.join, name="join"),
 ]

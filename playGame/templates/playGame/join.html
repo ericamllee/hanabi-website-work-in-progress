@@ -1,4 +1,4 @@
-<form method="post" action="{% url 'playGame:join' %}">
+<form method="post" action="{% url 'playGame:join' player%}">
 <legend>Propose Game</legend>
 
 {% csrf_token %}
