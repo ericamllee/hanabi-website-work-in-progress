@@ -26,17 +26,22 @@ def play(request):
 
 def join(request):
   if request.method == "GET":
-    people = Person.objects.filter(game=None)
-    return render(request, 'playGame/join.html', {'people': people})
+    return render(request, 'playGame/join.html', {'people': getPeople()})
   elif request.method == "POST":
-    print(request.POST)
-    # num_players = len(request.POST['person'])
-    # if 1 < num_players < 5:
-    if True:
-      # todo: only allow 2-4 players in a game.
+    player_list = request.POST.getlist('person')
+    # print(request.POST)
+    print(player_list)
+    num_players = len(player_list)
+    print(num_players)
+    if 1 <= num_players <= 4:
       # todo: have a way to accept game requests from people.
       # todo: if more than one person accepts, then make a game and start it.
       return HttpResponseRedirect(reverse('playGame:play'))
     else:
-      return render(request, 'playGame/join.html', {'error_message': "You must have between 2-4 players"})
+      return render(request, 'playGame/join.html', {'error_message': "You must have between 2-4 players", 'people': getPeople()})
+
+
+    #todo: give it a parameter for the current player, and exclude the current player from the list.
+def getPeople():
+  return Person.objects.filter(game=None)
 
