@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
 from playGame.models import Person, Game
+from django.db import IntegrityError
 
 
 def index(request):
@@ -13,11 +14,16 @@ def index(request):
     return render(request, 'playGame/index.html')
   elif request.method == "POST":
     if 'playername' in request.POST and request.POST['playername']:
-      p = Person(name=request.POST['playername'])
-      p.save()
-      return HttpResponseRedirect(reverse('playGame:join'))
+      player_name = request.POST['playername']
+      p = Person(name=player_name)
+      #todo: make sure only one name at a time.
+      try:
+        p.save()
+        return HttpResponseRedirect(reverse('playGame:join'))
+      except IntegrityError:
+        return render(request, 'playGame/index.html', {'error_message': player_name + " is already taken. Please enter a different name."})
     else:
-      return render(request, 'playGame/index.html', {'error_message': "You need to fill in a name"})
+      return render(request, 'playGame/index.html', {'error_message': "You need to fill in a name."})
 
 
 def play(request):
@@ -38,7 +44,7 @@ def join(request):
       # todo: if more than one person accepts, then make a game and start it.
       return HttpResponseRedirect(reverse('playGame:play'))
     else:
-      return render(request, 'playGame/join.html', {'error_message': "You must have between 2-4 players", 'people': getPeople()})
+      return render(request, 'playGame/join.html', {'error_message': "You must have between 2-4 players.", 'people': getPeople()})
 
 
     #todo: give it a parameter for the current player, and exclude the current player from the list.
