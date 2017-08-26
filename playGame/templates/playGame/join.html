@@ -1,10 +1,10 @@
-<form>
+<form method="post" action="{% url 'playGame:join' %}">
 <legend>Propose Game</legend>
 
 {% csrf_token %}
-{% for name in names %}
-    <input type="radio" name="name" id="name{{ forloop.counter }}" value="{{ name.id }}" />
-    <label for="name{{ forloop.counter }}">{{ name.name }}</label><br />
+{% for person in people %}
+    <input type="checkbox" name="person" id="person{{ forloop.counter }}" value="{{ person.id }}" />
+    <label for="person{{ forloop.counter }}">{{ person.name }}</label><br />
 {% endfor %}
 
 <p><input type="submit" id="submitted"></p>
