@@ -40,6 +40,11 @@ def join(request, player_id):
     if 1 <= num_players <= 4:
       # todo: have a way to accept game requests from people.
       # todo: if more than one person accepts, then make a game and start it.
+      g = Game(name=player_id)
+      g.save()
+      Person.objects.filter(pk=player_id).update(game=g)
+      for player in player_list:
+        Person.objects.filter(pk=player).update(game=g)
       return HttpResponseRedirect(reverse('playGame:play', args=(player_id,)))
     else:
       return render(request, 'playGame/join.html',
