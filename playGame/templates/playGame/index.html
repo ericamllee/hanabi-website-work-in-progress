@@ -1,4 +1,10 @@
-<form method = "post">
-<input type="text" name="playername" size="30" maxlength="100">
-<input type="submit">
+<h2>Hanabi!</h2>
+
+<form action="{% url 'playGame:index' %}" method = "post">
+    {% csrf_token %}
+    <input type="text" name="playername" size="30" maxlength="100" placeholder="Name"/>
+    <input type="submit" />
 </form>
+
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
